@@ -78,53 +78,53 @@ AddGroupToGroups = React.createClass({
 
 GroupList = React.createClass({
 
-    getInitialState(){
-        return {clicked: false};
-    },
-    handleClick(event){
+    //getInitialState(){
+    //    return {clicked: false};
+    //},
+    handleClick(e){
+        e.preventDefault;
        // this.setState({clicked: !this.state.clicked})
-    GroupsList.update ({_id: this.props.id, isMarked: true})
+        console.log("click");
+    GroupsList.update ({_id: this.props.id}, {$set: {isMarked: true}})
     },
-    markGroupName(){
-        var mark = this.props.name;
-        //return mark;
-        console.log("mark");
-    },
-    unmarkGroupName(){
-        var unmark = this.props.name;
-        //return unmark;
-        console.log("unmark");
-    },
+    //markGroupName(){
+    //    var mark = this.props.name;
+    //    //return mark;
+    //    console.log("mark");
+    //},
+    //unmarkGroupName(){
+    //    var unmark = this.props.name;
+    //    //return unmark;
+    //    console.log("unmark");
+    //},
 
 
-    showName() {
-
-        var obj = $('#' + this.props.id);
-        //var obj2 = $('#' + this.props.id).css({'background-color': 'grey'});
-
-        console.log(this.props.id);
-        console.log (obj.text());
-        if (obj.text() == this.props.name) {
-            obj.text('');
-        }
-        else {
-            obj.text(this.props.name);
-        }
-        //console.log('klik');
-
-    },
+    //showName() {
+    //
+    //    var obj = $('#' + this.props.id);
+    //    //var obj2 = $('#' + this.props.id).css({'background-color': 'grey'});
+    //
+    //    console.log(this.props.id);
+    //    console.log (obj.text());
+    //    if (obj.text() == this.props.name) {
+    //        obj.text('');
+    //    }
+    //    else {
+    //        obj.text(this.props.name);
+    //    }
+    //    //console.log('klik');
+    //
+    //},
 
     render(){
         //  var modifyClick = <a href = "/ModyfikujGrupe"></a>;
-        var text = this.state.clicked ? this.markGroupName() : this.unmarkGroupName();
+        //var text = this.state.clicked ? this.markGroupName() : this.unmarkGroupName();
 
         return (
             <div>
-                <div class="checkbox" onClick = {this.handleClick} idGrupy={this.props.id} nazwaGrupy={this.props.name}>
-                    <label><input type="checkbox" value="">{this.props.name}</input></label>
+                <div className="checkbox" >
+                    <label><input type="checkbox" onClick = {this.handleClick} value="">{this.props.name}</input></label>
                 </div>
-
-
                 <span id={this.props.id}></span>
             </div>
         )
