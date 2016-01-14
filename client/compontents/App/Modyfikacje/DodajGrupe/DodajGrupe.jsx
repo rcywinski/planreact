@@ -57,6 +57,11 @@ AddGroupToGroups = React.createClass({
 
     },
 
+    deleteGroup(){
+        var markedGroups = GroupsList.find({isMarked: true}).fetch();
+        GroupsList.remove ({markedGroups});
+    },
+
 
     render(){
 
@@ -67,6 +72,9 @@ AddGroupToGroups = React.createClass({
 
                 <input type="submit" className="btn btn-success" id="submitGroup" onClick={this.addGroup}
                        value="Dodaj grupę">
+                </input>
+                <input type="submit" className="btn btn-success" id="deleteGroup" onClick={this.deleteGroup}
+                       value="Usuń zaznaczone grupy">
                 </input>
 
             </div>
@@ -83,9 +91,15 @@ GroupList = React.createClass({
     //},
     handleClick(e){
         e.preventDefault;
-       // this.setState({clicked: !this.state.clicked})
-        console.log("click");
-    GroupsList.update ({_id: this.props.id}, {$set: {isMarked: true}})
+        // this.setState({clicked: !this.state.clicked})
+        console.log("click", this.props.id, "group baza", GroupsList.findOne({_id: this.props.id}));
+        var GroupIsMarkedStatus = GroupsList.findOne({_id: this.props.id});
+
+        if (GroupIsMarkedStatus.isMarked === false) {
+            GroupsList.update ({_id: this.props.id}, {$set: {isMarked: true}})
+        }
+        else GroupsList.update ({_id: this.props.id}, {$set: {isMarked: false}})
+
     },
     //markGroupName(){
     //    var mark = this.props.name;
@@ -122,8 +136,8 @@ GroupList = React.createClass({
 
         return (
             <div>
-                <div className="checkbox" >
-                    <label><input type="checkbox" onClick = {this.handleClick} value="">{this.props.name}</input></label>
+                <div className="checkbox">
+                    <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.name} {this.props.id}</input></label>
                 </div>
                 <span id={this.props.id}></span>
             </div>
