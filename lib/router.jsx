@@ -45,6 +45,15 @@ FlowRouter.route('/DodajGrupe', {
         });
     }
 });
+FlowRouter.route('/DodajNauczyciela', {
+    name: 'DodajNauczyciela',
+    action() {
+        ReactLayout.render(DodajNauczyciela, {
+            //modyfikacje: <modyfikacje />,
+            nav: <Nav />
+        });
+    }
+});
 FlowRouter.route('/ModyfikujGrupe', {
     name: 'ModyfikujGrupe',
     action() {

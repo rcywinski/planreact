@@ -5,7 +5,6 @@ DodajUcznia = React.createClass({
         return { // do the sort
             groups: GroupsList.find({groupDB: {$exists: true}}, {sort: {startTime: 1}}).fetch()
         };
-
     },
 
 

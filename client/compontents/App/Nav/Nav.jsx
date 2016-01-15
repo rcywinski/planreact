@@ -12,6 +12,7 @@ Nav = React.createClass({
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="/DodajUcznia">Dodaj/usun studneta</a></li>
                         <li><a href="/DodajGrupe">Dodaj/usun grupe</a></li>
+                        <li><a href="/DodajNauczyciela">Dodaj/usun nauczyciela</a></li>
                         <li><a href="#">Dodaj nauczyciela</a></li>
                         <li><a href="#">Administracja</a></li>
                     </ul>

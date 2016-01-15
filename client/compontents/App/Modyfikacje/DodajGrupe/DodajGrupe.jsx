@@ -59,7 +59,9 @@ AddGroupToGroups = React.createClass({
 
     deleteGroup(){
         var markedGroups = GroupsList.find({isMarked: true}).fetch();
-        GroupsList.remove ({markedGroups});
+        _.each(markedGroups, (markedGroup) => {
+            GroupsList.remove({_id: markedGroup._id});
+        });
     },
 
 
@@ -68,15 +70,12 @@ AddGroupToGroups = React.createClass({
         return (
 
             <div>
-
-
                 <input type="submit" className="btn btn-success" id="submitGroup" onClick={this.addGroup}
                        value="Dodaj grupę">
                 </input>
-                <input type="submit" className="btn btn-success" id="deleteGroup" onClick={this.deleteGroup}
+                <input type="submit" className="btn btn-warning" id="deleteGroup" onClick={this.deleteGroup}
                        value="Usuń zaznaczone grupy">
                 </input>
-
             </div>
         )
     }
@@ -86,64 +85,27 @@ AddGroupToGroups = React.createClass({
 
 GroupList = React.createClass({
 
-    //getInitialState(){
-    //    return {clicked: false};
-    //},
     handleClick(e){
         e.preventDefault;
-        // this.setState({clicked: !this.state.clicked})
-        console.log("click", this.props.id, "group baza", GroupsList.findOne({_id: this.props.id}));
         var GroupIsMarkedStatus = GroupsList.findOne({_id: this.props.id});
-
-        if (GroupIsMarkedStatus.isMarked === false) {
-            GroupsList.update ({_id: this.props.id}, {$set: {isMarked: true}})
-        }
-        else GroupsList.update ({_id: this.props.id}, {$set: {isMarked: false}})
+        GroupsList.update ({_id: this.props.id}, {$set: {isMarked: !GroupIsMarkedStatus.isMarked}});
 
     },
-    //markGroupName(){
-    //    var mark = this.props.name;
-    //    //return mark;
-    //    console.log("mark");
-    //},
-    //unmarkGroupName(){
-    //    var unmark = this.props.name;
-    //    //return unmark;
-    //    console.log("unmark");
-    //},
-
-
-    //showName() {
-    //
-    //    var obj = $('#' + this.props.id);
-    //    //var obj2 = $('#' + this.props.id).css({'background-color': 'grey'});
-    //
-    //    console.log(this.props.id);
-    //    console.log (obj.text());
-    //    if (obj.text() == this.props.name) {
-    //        obj.text('');
-    //    }
-    //    else {
-    //        obj.text(this.props.name);
-    //    }
-    //    //console.log('klik');
-    //
-    //},
 
     render(){
-        //  var modifyClick = <a href = "/ModyfikujGrupe"></a>;
-        //var text = this.state.clicked ? this.markGroupName() : this.unmarkGroupName();
-
         return (
             <div>
                 <div className="checkbox">
-                    <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.name} {this.props.id}</input></label>
+                    <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.name}</input></label>
                 </div>
-                <span id={this.props.id}></span>
             </div>
         )
     }
-});//="/ModyfikujGrupe/"
+});
+
+
+
+//="/ModyfikujGrupe/"
 //onClick={this.handleClick}
 // <EdycjaGrupy idGrupy={this.props.id} nazwaGrupy={this.props.name} />
 //var ModifyGroup = React.createClass({
