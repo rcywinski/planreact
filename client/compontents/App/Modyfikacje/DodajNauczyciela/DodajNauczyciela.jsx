@@ -12,18 +12,18 @@ DodajNauczyciela = React.createClass({
 
         var teachers = this.data.teachers;
         var showTeachers = teachers.map((teacher) => {
-            return <Teacher key={teacher._id} name={teacher.name}/>
+            return <Teacher key={teacher._id} id={teacher._id} teacherName={teacher.name}/>
         });
         return showTeachers;
     },
-
 
 
     render(){
         return (
             <div>
                 {this.props.nav}
-                <div>{this.renderTeachersList}</div>
+                <h4>Nauczyciele dostępni w bazie:</h4>
+                <ul>{this.renderTeachersList()}</ul>
 
                 <h4>Dodaj nowego nauczyciela:</h4>
 
@@ -52,16 +52,6 @@ DodajNauczyciela = React.createClass({
     }
 });
 
-Teacher = React.createClass({
-    render(){
-
-        return (
-            <div>
-                {this.props.name}
-            </div>
-        )
-    }
-});
 
 AddTeacherClass = React.createClass({
 
@@ -71,15 +61,46 @@ AddTeacherClass = React.createClass({
         var teacherName = $("#teacherName").val();
 
         TeachersList.insert({
-            name: name
+            name: teacherName,
+            isMarked: false
+        });
+    },
+    deleteTeacher(){
+        var markedTeachers = TeachersList.find({isMarked: true}).fetch();
+        _.each(markedTeachers, (markedTeacher) => {
+            GroupsList.remove({_id: markedTeacher._id});
         });
     },
 
     render(){
         return (
-            <input type="submit" className="btn btn-success" id="submitName" onClick={this.addTeacher}
-                   value="Dodaj nauczyciela">
-            </input>
+            <div>
+                <input type="submit" className="btn btn-success" id="submitName" onClick={this.addTeacher}
+                       value="Dodaj nauczyciela">
+                </input>
+                <input type="submit" className="btn btn-warning" id="deleteTeacher" onClick={this.deleteTeacher}
+                       value="Usuń zaznaczonych nauczycieli">
+                </input>
+            </div>
+        )
+    }
+});
+
+
+Teacher = React.createClass({
+    handleClick(e){
+        e.preventDefault;
+        var TeacherIsMarkedStatus = TeachersList.findOne({_id: this.props.id});
+        TeachersList.update ({_id: this.props.id}, {$set: {isMarked: !TeacherIsMarkedStatus.isMarked}});
+    },
+    render(){
+console.log (this.props.teacherName, this.props.id);
+        return (
+            <div className="checkbox">
+                <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.teacherName}</input></label>
+            </div>
+
+
         )
     }
 });

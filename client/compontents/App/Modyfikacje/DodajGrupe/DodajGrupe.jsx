@@ -15,10 +15,6 @@ DodajGrupe = React.createClass({
         });
         return groupDBvar;
     },
-    //handleChange(event) {
-    //    this.setState({key: event.target.value})
-    //},
-
 
     render(){
         return (
@@ -89,11 +85,14 @@ GroupList = React.createClass({
         e.preventDefault;
         var GroupIsMarkedStatus = GroupsList.findOne({_id: this.props.id});
         GroupsList.update ({_id: this.props.id}, {$set: {isMarked: !GroupIsMarkedStatus.isMarked}});
-
+        console.log(this.props.id)
     },
 
     render(){
+        console.log (this.props.id);
+
         return (
+
             <div>
                 <div className="checkbox">
                     <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.name}</input></label>
