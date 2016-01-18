@@ -2,7 +2,7 @@ StronaGlowna = React.createClass({
     render(){
         return(
             <div>
-                <h1> super wkurwe zaawansowany zakakalec</h1>
+                <h1> Strona glowna</h1>
             </div>
         )
     }

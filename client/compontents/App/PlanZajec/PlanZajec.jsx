@@ -6,7 +6,7 @@ PlanZajec = React.createClass({
     getMeteorData(){
         //console.log('jestem');
         return { // select name , sur from StudentsList
-            students: StudentsList.find({}, {fields: {_id: 1, name: 1, startTime: 1, endTime: 1, groupDB: 1}}).fetch()
+            students: StudentsList.find({}, {fields: {_id: 1, name: 1, startTime: 1, endTime: 1, groupDB: 1, teacher: 1}}).fetch()
 
         }
     },
@@ -21,7 +21,7 @@ PlanZajec = React.createClass({
 
             var _a = _students.map((student) => {
                 return <Name key={student._id} name={student.name} startTime={student.startTime}
-                             endTime={student.endTime} groupDB = {student.groupDB}/>;
+                             endTime={student.endTime} groupDB = {student.groupDB} teacher = {student.teacher}/>;
             });
 
             return (
@@ -33,6 +33,7 @@ PlanZajec = React.createClass({
                         <th>Początek zajęć</th>
                         <th>Koniec zajęć</th>
                         <th>Grupa</th>
+                        <th>Nauczyciel</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,6 +76,7 @@ Name = React.createClass({
                 <td>{this.props.startTime}</td>
                 <td>{this.props.endTime}</td>
                 <td>{this.props.groupDB}</td>
+                <td>{this.props.teacher}</td>
             </tr>
 
         );

@@ -1,13 +1,11 @@
 DodajNauczyciela = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData(){
-
         return {
             // do the sort
             teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch()
         };
     },
-
     renderTeachersList(){
 
         var teachers = this.data.teachers;
@@ -16,7 +14,6 @@ DodajNauczyciela = React.createClass({
         });
         return showTeachers;
     },
-
 
     render(){
         return (
@@ -30,21 +27,17 @@ DodajNauczyciela = React.createClass({
                 <div className="form-group">
                     <div className="row">
                         <div className="col-xs-4">
-                            <label>Imię i nazwisko:</label>
+                            <label>Podaj nazwę nowej grupy:</label>
                             <input type="text" className="form-control" id="teacherName">
                             </input>
+
                         </div>
+                        <br/>
                     </div>
                 </div>
-                <br />
-                <div>
-                    <form>
-                        <div>
-                            <AddTeacherClass />
-                        </div>
-                    </form>
-                </div>
-                <br/>
+
+                <AddTeacherClass />
+
 
             </div>
 
@@ -67,8 +60,11 @@ AddTeacherClass = React.createClass({
     },
     deleteTeacher(){
         var markedTeachers = TeachersList.find({isMarked: true}).fetch();
+        //console.log("marked teachers", markedTeachers);
         _.each(markedTeachers, (markedTeacher) => {
-            GroupsList.remove({_id: markedTeacher._id});
+           // console.log ("marekd", markedTeacher._id);
+            TeachersList.remove({_id: markedTeacher._id});
+
         });
     },
 
@@ -92,6 +88,7 @@ Teacher = React.createClass({
         e.preventDefault;
         var TeacherIsMarkedStatus = TeachersList.findOne({_id: this.props.id});
         TeachersList.update ({_id: this.props.id}, {$set: {isMarked: !TeacherIsMarkedStatus.isMarked}});
+
     },
     render(){
 console.log (this.props.teacherName, this.props.id);

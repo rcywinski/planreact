@@ -3,7 +3,9 @@ DodajUcznia = React.createClass({
     getMeteorData(){
 
         return { // do the sort
-            groups: GroupsList.find({groupDB: {$exists: true}}, {sort: {startTime: 1}}).fetch()
+            groups: GroupsList.find({groupDB: {$exists: true}}, {sort: {startTime: 1}}).fetch(),
+            teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch()
+
         };
     },
 
@@ -15,6 +17,14 @@ DodajUcznia = React.createClass({
             return <Group key={group._id} groupDB={group.groupDB}/>
         });
         return groupDBvar;
+    },
+    renderTeachersList(){
+
+        var teachers = this.data.teachers;
+        var showTeachers = teachers.map((teacher) => {
+            return <TeacherList key={teacher._id} id={teacher._id} teacherName={teacher.name}/>
+        });
+        return showTeachers;
     },
 
 
@@ -107,6 +117,21 @@ DodajUcznia = React.createClass({
                         <div className="col-xs-4">
                             <select className="form-control" id="groupForm">
                                 {this.renderGroupList()}
+                            </select>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div className="form-group">
+
+                    <div><label>Nauczyciel:</label></div>
+
+                    <div className="row">
+                        <div className="col-xs-4">
+                            <select className="form-control" id="teacherForm">
+                                {this.renderTeachersList()}
                             </select>
 
                         </div>
@@ -226,6 +251,20 @@ Group = React.createClass({
         )
     }
 });
+TeacherList = React.createClass({
+
+    render(){
+        //console.log (this.props.teacherName, this.props.id);
+        return (
+
+            <option value={this.props.teacherName}>
+                {this.props.teacherName}
+            </option>
+
+
+        )
+    }
+});
 
 AddToPlanClass = React.createClass({
 
@@ -238,11 +277,12 @@ AddToPlanClass = React.createClass({
         var addEndTime = $("#endTime").val();
         var studentName = $("#studentName").val();
         var days = $("#days").val();
+        var teachers = $("#teacherForm").val();
 
         //console.log($("#groupForm").val);
         StudentsList.insert({
             name: studentName, startTime: addStartTime, endTime: addEndTime,
-            days: days, groupDB: addGroup
+            days: days, groupDB: addGroup, teacher: teachers
         });
     },
 

@@ -10,8 +10,6 @@ DodajGrupe = React.createClass({
         var groups = this.data.groups;
         var groupDBvar = groups.map((group) => {
             return (<GroupList key={group._id} id={group._id} name={group.groupDB}/>);
-            // var textValue = $("obj").val();
-
         });
         return groupDBvar;
     },
@@ -49,8 +47,10 @@ AddGroupToGroups = React.createClass({
     addGroup(e){
         e.preventDefault;
         var GroupNameForm = $("#groupName").val();
-        GroupsList.insert ({groupDB: GroupNameForm, isMarked: false});
-
+        GroupsList.insert ({
+            groupDB: GroupNameForm,
+            isMarked: false
+        });
     },
 
     deleteGroup(){
@@ -62,7 +62,6 @@ AddGroupToGroups = React.createClass({
 
 
     render(){
-
         return (
 
             <div>
@@ -90,14 +89,13 @@ GroupList = React.createClass({
 
     render(){
         console.log (this.props.id);
-
+        console.log (this.props.name);
         return (
 
-            <div>
                 <div className="checkbox">
                     <label><input type="checkbox" onClick={this.handleClick} value="">{this.props.name}</input></label>
                 </div>
-            </div>
+
         )
     }
 });
