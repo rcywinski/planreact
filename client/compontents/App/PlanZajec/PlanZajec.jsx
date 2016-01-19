@@ -1,12 +1,19 @@
-
-
 PlanZajec = React.createClass({
 
     mixins: [ReactMeteorData],
     getMeteorData(){
         //console.log('jestem');
         return { // select name , sur from StudentsList
-            students: StudentsList.find({}, {fields: {_id: 1, name: 1, startTime: 1, endTime: 1, groupDB: 1, teacher: 1}}).fetch()
+            students: StudentsList.find({}, {
+                fields: {
+                    _id: 1,
+                    name: 1,
+                    startTime: 1,
+                    endTime: 1,
+                    groupDB: 1,
+                    teacher: 1
+                }
+            }).fetch()
 
         }
     },
@@ -21,7 +28,7 @@ PlanZajec = React.createClass({
 
             var _a = _students.map((student) => {
                 return <Name key={student._id} name={student.name} startTime={student.startTime}
-                             endTime={student.endTime} groupDB = {student.groupDB} teacher = {student.teacher}/>;
+                             endTime={student.endTime} groupDB={student.groupDB} teacher={student.teacher}/>;
             });
 
             return (
