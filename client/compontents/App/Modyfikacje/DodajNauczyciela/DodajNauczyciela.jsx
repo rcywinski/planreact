@@ -6,16 +6,48 @@ DodajNauczyciela = React.createClass({
             teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch()
         };
     },
+
+    renderPlanForTeacher(){
+        var checkedTeacher = TeachersList.findOne({isMarked: true});
+        var valueCheckedTeacher = checkedTeacher.name;
+        var studentsForTeacher = StudentsList.find ({teacher: valueCheckedTeacher}).fetch();
+        var showStudentsForTeacher = studentsForTeacher.map((studentsForTeacher)=> {
+            return <StudentsForTeacher key={studentsForTeacher._id} studentsForTeacherName={studentsForTeacher.name}/>
+        });
+        return showStudentsForTeacher;
+    },
+    render(){
+      return (
+          <div>
+              <table className="table">
+
+                  <thead>
+                  <tr>
+                      <th>Studenci dla zaznaczonego nauczyciela</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {showStudentsForTeacher}
+                  </tbody>
+              </table>
+
+          </div>
+      )
+    },
     renderTeachersList(){
 
         var teachers = this.data.teachers;
         var showTeachers = teachers.map((teacher) => {
+            //if (teacher.isMarked === false) {
             return <Teacher key={teacher._id} id={teacher._id} teacherName={teacher.name}/>
+
         });
         return showTeachers;
     },
 
-    render(){
+    render()
+    {
         return (
             <div>
                 {this.props.nav}
@@ -98,6 +130,7 @@ Teacher = React.createClass({
     },
     render(){
         console.log (this.props.teacherName, this.props.id);
+
         return (
             <div className="checkbox">
                 <label><input type="checkbox" onClick={this.handleClick}
@@ -107,6 +140,19 @@ Teacher = React.createClass({
 
         )
     }
+});
+StudentsForTeacher = React.createClass({
+
+    render(){
+        return (
+            <div>
+                <tr>
+                    <td>{this.props.studentsForTeacherName}</td>
+                </tr>
+            </div>
+        )
+    }
+
 });
 
 ShowPlanForTeacher = React.createClass ({
@@ -138,6 +184,7 @@ ShowPlanForTeacher = React.createClass ({
             _students = this.data.students;
         }
         if ((_students) && (_students.length > 0)) {
+
 
             var _a = _students.map((student) => {
                 return <Name key={student._id} name={student.name} startTime={student.startTime}
