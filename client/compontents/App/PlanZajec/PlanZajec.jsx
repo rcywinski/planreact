@@ -19,7 +19,6 @@ PlanZajec = React.createClass({
     },
     renderStudentList() {
 
-        // Get tasks from this.data.tasks
         var _students;
         if (this.data.students) {
             _students = this.data.students;
