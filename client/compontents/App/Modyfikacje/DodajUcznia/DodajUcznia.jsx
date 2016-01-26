@@ -11,7 +11,6 @@ DodajUcznia = React.createClass({
 
 
     renderGroupList(){
-
         var groups = this.data.groups;
         var groupDBvar = groups.map((group) => {
             return <Group key={group._id} groupDB={group.groupDB}/>
@@ -19,7 +18,6 @@ DodajUcznia = React.createClass({
         return groupDBvar;
     },
     renderTeachersList(){
-
         var teachers = this.data.teachers;
         var showTeachers = teachers.map((teacher) => {
             return <TeacherList key={teacher._id} id={teacher._id} teacherName={teacher.name}/>
@@ -29,7 +27,6 @@ DodajUcznia = React.createClass({
 
 
     addToPlan(){
-
 
     },
 
@@ -107,7 +104,6 @@ DodajUcznia = React.createClass({
                         </div>
                     </div>
                 </div>
-                <br />
 
                 <div className="form-group">
 

@@ -3,38 +3,20 @@ DodajNauczyciela = React.createClass({
     getMeteorData(){
         return {
             // do the sort
-            teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch()
+            teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch(),
+            students: StudentsList.find({}, {
+                fields: {
+                    _id: 1,
+                    name: 1,
+                    startTime: 1,
+                    endTime: 1,
+                    groupDB: 1,
+                    teacher: 1
+                }
+            }).fetch()
         };
     },
 
-    //renderPlanForTeacher(){
-    //    var checkedTeacher = TeachersList.findOne({isMarked: true});
-    //    var valueCheckedTeacher = checkedTeacher.name;
-    //    var studentsForTeacher = StudentsList.find ({teacher: valueCheckedTeacher}).fetch();
-    //    var showStudentsForTeacher = studentsForTeacher.map((studentsForTeacher)=> {
-    //        return <StudentsForTeacher key={studentsForTeacher._id} studentsForTeacherName={studentsForTeacher.name}/>
-    //    });
-    //    return showStudentsForTeacher;
-    //},
-    //render(){
-    //    return (
-    //        <div>
-    //            <table className="table3">
-    //
-    //                <thead>
-    //                <tr>
-    //                    <th>Studenci dla zaznaczonego nauczyciela</th>
-    //
-    //                </tr>
-    //                </thead>
-    //                <tbody>
-    //                {showStudentsForTeacher}
-    //                </tbody>
-    //            </table>
-    //
-    //        </div>
-    //    )
-    //},
     renderTeachersList(){
 
         var teachers = this.data.teachers;
@@ -51,7 +33,7 @@ DodajNauczyciela = React.createClass({
         return (
             <div>
                 {this.props.nav}
-                <h4>Nauczyciele dostępni w bazie:</h4>
+                <h3>Nauczyciele dostępni w bazie:</h3>
                 <ul>{this.renderTeachersList()}</ul>
 
                 <h4>Dodaj nowego nauczyciela:</h4>
@@ -59,12 +41,11 @@ DodajNauczyciela = React.createClass({
                 <div className="form-group">
                     <div className="row">
                         <div className="col-xs-4">
-                            <label>Podaj nazwę nowej grupy:</label>
+                            <label>Podaj nazwę nowego nauczyciela:</label>
                             <input type="text" className="form-control" id="teacherName">
                             </input>
 
                         </div>
-                        <br/>
                     </div>
                 </div>
 
@@ -90,14 +71,44 @@ AddTeacherClass = React.createClass({
     },
     deleteTeacher(){
         var markedTeachers = TeachersList.find({isMarked: true}).fetch();
-        //console.log("marked teachers", markedTeachers);
         _.each(markedTeachers, (markedTeacher) => {
-            // console.log ("marekd", markedTeacher._id);
             TeachersList.remove({_id: markedTeacher._id});
 
         });
     },
-    showPlanForTeacher(){
+
+    renderPlanForTeacher(){
+        var checkedTeacher = TeachersList.find({isMarked: true}).fetch();
+        if (checkedTeacher.length > 0) {
+            var valueCheckedTeacher = checkedTeacher[0].name;
+            var studentsForTeacher = StudentsList.find ({teacher: valueCheckedTeacher}).fetch();
+            var showStudentsForTeacher = studentsForTeacher.map((studentsForTeacher)=> {
+                return <StudentsForTeacher key={studentsForTeacher._id} studentsForTeacherName={studentsForTeacher.name}
+                                           studentsForTeacherStartTime={studentsForTeacher.startTime}
+                                           studentsForTeacherEndTime={studentsForTeacher.endTime}
+                                           studentsForTeacherGroupDB={studentsForTeacher.groupDB}/>
+            });
+        }
+        return (
+            <div>
+                <h3> Plan zajęć dla zaznaczonego nauczyciela</h3>
+                <table className="table">
+
+                    <thead>
+                    <tr>
+                        <th>Imie i nazwisko</th>
+                        <th>Początek zajęć</th>
+                        <th>Koniec zajęć</th>
+                        <th>Grupa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {showStudentsForTeacher}
+                    </tbody>
+                </table>
+
+            </div>
+        )
     },
 
     render(){
@@ -109,11 +120,9 @@ AddTeacherClass = React.createClass({
                 <input type="submit" className="btn btn-warning" id="deleteTeacher" onClick={this.deleteTeacher}
                        value="Usuń zaznaczonych nauczycieli">
                 </input>
-                <a href="/PlanZajec"> plan </a>
-                <input type="submit" className="btn btn-succes" id="showPlanForTeacher"
-                       onClick={this.showPlanForTeacher}
-                       value="Pokaż plan dla zaznaczonego nauczyciela">
-                </input>
+                <div>
+                    {this.renderPlanForTeacher()}
+                </div>
             </div>
         )
     }
@@ -127,36 +136,8 @@ Teacher = React.createClass({
         TeachersList.update ({_id: this.props.id}, {$set: {isMarked: !TeacherIsMarkedStatus.isMarked}});
 
     },
-    renderPlanForTeacher(){
-        var checkedTeacher = TeachersList.find({isMarked: true}).fetch;
-      if (checkedTeacher.length > 0) {
-          var valueCheckedTeacher = checkedTeacher.name;
-          var studentsForTeacher = StudentsList.find ({teacher: valueCheckedTeacher}).fetch();
-          var showStudentsForTeacher = studentsForTeacher.map((studentsForTeacher)=> {
-              return <StudentsForTeacher key={studentsForTeacher._id} studentsForTeacherName={studentsForTeacher.name}/>
-          });
-      }
-        return (
-            <div>
-                <table className="table3">
 
-                    <thead>
-                    <tr>
-                        <th>Studenci dla zaznaczonego nauczyciela</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {showStudentsForTeacher}
-                    </tbody>
-                </table>
-
-            </div>
-        )
-    },
     render(){
-        console.log (this.props.teacherName, this.props.id);
-
 
         return (
             <div className="checkbox">
@@ -166,7 +147,6 @@ Teacher = React.createClass({
                     </input>
                 </label>
                 <div>
-                    {this.renderPlanForTeacher()}
                 </div>
             </div>
 
@@ -179,82 +159,16 @@ StudentsForTeacher = React.createClass({
 
     render(){
         return (
-            <div>
-                <tr>
-                    <td>{this.props.studentsForTeacherName}</td>
-                </tr>
-            </div>
+
+            <tr>
+                <td>{this.props.studentsForTeacherName}</td>
+                <td>{this.props.studentsForTeacherStartTime}</td>
+                <td>{this.props.studentsForTeacherEndTime}</td>
+                <td>{this.props.studentsForTeacherGroupDB}</td>
+            </tr>
+
         )
     }
 
 });
-
-ShowPlanForTeacher = React.createClass ({
-    mixins: [ReactMeteorData],
-    getMeteorData(){
-        //console.log('jestem');
-        return { // select name , sur from StudentsList
-            teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch(),
-            students: StudentsList.find({}, {
-                fields: {
-                    _id: 1,
-                    name: 1,
-                    startTime: 1,
-                    endTime: 1,
-                    groupDB: 1,
-                    teacher: 1
-                }
-            }).fetch()
-
-        }
-    },
-
-    renderStudentList() {
-
-        var _teachers = this.data.teachers;
-
-            var _b = _teachers.map((teacher) => {
-                return <TeacherName key={teacher._id} teacherName={teacher.name} isMarked={teacher.isMarked}/>;
-            });
-
-            return (
-                <div>
-
-                    <table className="table2">
-
-                        <thead>
-                        <tr>
-                            <th>Imie i nazwisko nauczyciela</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {_b}
-                        </tbody>
-                    </table>
-                </div>
-            )
-    },
-
-
-    render() {
-        return (
-            <div>
-                {this.props.nav}
-                <div>
-                    <div className="container">
-                    </div>
-                    <h1>Plan zajęć</h1>
-
-                    {this.renderStudentList()}
-
-                </div>
-                {this.props.planZajec}
-            </div>
-        );
-
-    }
-
-});
-
 

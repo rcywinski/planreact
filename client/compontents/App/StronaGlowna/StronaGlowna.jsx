@@ -2,7 +2,7 @@ StronaGlowna = React.createClass({
     render(){
         return(
             <div>
-                <h1> Strona glowna</h1>
+                <img src = "\img\logo.jpg"/>
             </div>
         )
     }

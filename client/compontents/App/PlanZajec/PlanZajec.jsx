@@ -7,6 +7,7 @@ PlanZajec = React.createClass({
             students: StudentsList.find({}, {
                 fields: {
                     _id: 1,
+                    days: 1,
                     name: 1,
                     startTime: 1,
                     endTime: 1,
@@ -26,26 +27,36 @@ PlanZajec = React.createClass({
         if ((_students) && (_students.length > 0)) {
 
             var _a = _students.map((student) => {
-                return <Name key={student._id} name={student.name} startTime={student.startTime}
+                return <Name key={student._id} days={student.days} name={student.name} startTime={student.startTime}
                              endTime={student.endTime} groupDB={student.groupDB} teacher={student.teacher}/>;
             });
 
-            return (
-                <table className="table">
+            //var findDay = StudentsList.find({days: "1"}).fetch();
+            //var days = _students.map((studentDay) => {
+            //  return <Days key={studentDay._id} day = {studentDay.days} />;
+            //});
 
-                    <thead>
-                    <tr>
-                        <th>Imie i nazwisko</th>
-                        <th>Początek zajęć</th>
-                        <th>Koniec zajęć</th>
-                        <th>Grupa</th>
-                        <th>Nauczyciel</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {_a}
-                    </tbody>
-                </table>
+
+
+                return (
+                <div>
+                    <h3></h3>
+                    <table className="table">
+
+                        <thead>
+                        <tr>
+                            <th>Imie i nazwisko</th>
+                            <th>Początek zajęć</th>
+                            <th>Koniec zajęć</th>
+                            <th>Grupa</th>
+                            <th>Nauczyciel</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {_a}
+                        </tbody>
+                    </table>
+                </div>
             )
         }
         else {
