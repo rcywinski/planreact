@@ -263,7 +263,16 @@ TeacherList = React.createClass({
 });
 
 AddToPlanClass = React.createClass({
-
+    addToPlanPreparation(){
+        var addStartTime = $("#startTime").val();
+        var addEndTime = $("#endTime").val();
+        if (addEndTime < addStartTime) {
+           alert("Czas poczatkowy musi byc wiekszy niz czas koncowy")
+        }
+         else {
+            this.addToPlan()
+         }
+    },
 
     addToPlan(e){
         e.preventDefault;
@@ -284,7 +293,7 @@ AddToPlanClass = React.createClass({
 
     render(){
         return (
-            <input type="submit" className="btn btn-success" id="submitName" onClick={this.addToPlan}
+            <input type="submit" className="btn btn-success" id="submitName" onClick={this.addToPlanPreparation}
                    value="Dodaj do planu">
             </input>
         )

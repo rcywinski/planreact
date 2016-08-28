@@ -2,7 +2,6 @@ PlanZajec = React.createClass({
 
     mixins: [ReactMeteorData],
     getMeteorData(){
-        //console.log('jestem');
         return { // select name , sur from StudentsList
             students: StudentsList.find({}, {
                 fields: {
@@ -102,7 +101,7 @@ Name = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData(){
 
-        return { // do sort
+        return { // todo sort
             groups: GroupsList.find({groupDB: {$exists: true}}, {sort: {startTime: 1}}).fetch(),
             teachers: TeachersList.find({name: {$exists: true}}, {sort: {name: 1}}).fetch()
 
