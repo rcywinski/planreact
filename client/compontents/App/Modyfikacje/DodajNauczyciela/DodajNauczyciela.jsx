@@ -44,7 +44,6 @@ DodajNauczyciela = React.createClass({
                             <label>Podaj nazwę nowego nauczyciela:</label>
                             <input type="text" className="form-control" id="teacherName">
                             </input>
-
                         </div>
                     </div>
                 </div>

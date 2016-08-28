@@ -7,3 +7,4 @@ StronaGlowna = React.createClass({
         )
     }
 });
+
