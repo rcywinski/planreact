@@ -13,8 +13,6 @@ Nav = React.createClass({
                         <li><a href="/DodajUcznia">Dodaj/usun studneta</a></li>
                         <li><a href="/DodajGrupe">Dodaj/usun grupe</a></li>
                         <li><a href="/DodajNauczyciela">Dodaj/usun nauczyciela</a></li>
-                        <li><a href="#">Dodaj nauczyciela</a></li>
-                        <li><a href="#">Administracja</a></li>
                     </ul>
                 </div></li>
 
