@@ -11,7 +11,8 @@ DodajNauczyciela = React.createClass({
                     startTime: 1,
                     endTime: 1,
                     groupDB: 1,
-                    teacher: 1
+                    teacher: 1,
+                    days: 1,
                 }
             }).fetch()
         };
@@ -85,7 +86,8 @@ AddTeacherClass = React.createClass({
                 return <StudentsForTeacher key={studentsForTeacher._id} studentsForTeacherName={studentsForTeacher.name}
                                            studentsForTeacherStartTime={studentsForTeacher.startTime}
                                            studentsForTeacherEndTime={studentsForTeacher.endTime}
-                                           studentsForTeacherGroupDB={studentsForTeacher.groupDB}/>
+                                           studentsForTeacherGroupDB={studentsForTeacher.groupDB}
+                                           studentsForTeacherDays={studentsForTeacher.days}/>
             });
         }
         return (
@@ -99,6 +101,7 @@ AddTeacherClass = React.createClass({
                         <th>Początek zajęć</th>
                         <th>Koniec zajęć</th>
                         <th>Grupa</th>
+                        <th>Dzień tygodnia</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -164,6 +167,7 @@ StudentsForTeacher = React.createClass({
                 <td>{this.props.studentsForTeacherStartTime}</td>
                 <td>{this.props.studentsForTeacherEndTime}</td>
                 <td>{this.props.studentsForTeacherGroupDB}</td>
+                <td>{this.props.studentsForTeacherDays}</td>
             </tr>
 
         )
